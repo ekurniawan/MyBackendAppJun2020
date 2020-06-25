@@ -75,5 +75,36 @@ namespace MyBackendApp.DAL
             }
             return emp;
         }
+
+        public void InsertEmployee(Employee emp)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConnStr()))
+            {
+                string strSql = @"insert into Employees(EmpName,Designation,Department,Qualification,Birthdate)
+                values(@EmpName,@Designation,@Department,@Qualification,@Birthdate)";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                cmd.Parameters.AddWithValue("@EmpName", emp.EmpName);
+                cmd.Parameters.AddWithValue("@Designation", emp.Designation);
+                cmd.Parameters.AddWithValue("@Department", emp.Department);
+                cmd.Parameters.AddWithValue("@Qualification", emp.Qualification);
+                cmd.Parameters.AddWithValue("@Birthdate", emp.BirthDate);
+                try
+                {
+                    conn.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    if (result != 1)
+                        throw new Exception("Gagal tambah data...");
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);
+                }
+                finally
+                {
+                    cmd.Dispose();
+                    conn.Close();
+                }
+            }
+        }
     }
 }

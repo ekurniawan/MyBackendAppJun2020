@@ -16,7 +16,7 @@ namespace MyBackendApp.Controllers
                 Department="IT",Qualification="Android",BirthDate=new DateTime(1990,12,12)},
             new Employee{EmpId=2,EmpName="Bambang",Designation="Mobile Dev",
                 Department="IT",Qualification="IOS",BirthDate=new DateTime(1990,11,30)},
-            new Employee{EmpId=1,EmpName="Roger",Designation="Web Dev",
+            new Employee{EmpId=3,EmpName="Roger",Designation="Web Dev",
                 Department="IT",Qualification="Tizen",BirthDate=new DateTime(1990,5,12)}
         };
 
@@ -27,9 +27,10 @@ namespace MyBackendApp.Controllers
         }
 
         // GET: api/Employee/5
-        public string Get(int id)
+        public Employee Get(int id)
         {
-            return "value";
+            var result = lstEmployee.Where(e => e.EmpId == id).SingleOrDefault();
+            return result;
         }
 
         // POST: api/Employee

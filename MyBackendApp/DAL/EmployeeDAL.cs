@@ -47,5 +47,33 @@ namespace MyBackendApp.DAL
             }
             return lstEmployee;
         }
+
+
+        public Employee GetEmployeeByID(int empId)
+        {
+            Employee emp = new Employee();
+            using (SqlConnection conn = new SqlConnection(GetConnStr()))
+            {
+                string strSql = @"select * from Employees where EmpId=@EmpId";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                cmd.Parameters.AddWithValue("@EmpId", empId);
+                conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    emp.EmpId = Convert.ToInt32(dr["EmpId"]);
+                    emp.EmpName = dr["EmpName"].ToString();
+                    emp.Designation = dr["Designation"].ToString();
+                    emp.Department = dr["Department"].ToString();
+                    emp.Qualification = dr["Qualification"].ToString();
+                    emp.BirthDate = Convert.ToDateTime(dr["Birthdate"]);
+                }
+                dr.Close();
+                cmd.Dispose();
+                conn.Close();
+            }
+            return emp;
+        }
     }
 }

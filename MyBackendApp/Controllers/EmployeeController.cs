@@ -26,7 +26,7 @@ namespace MyBackendApp.Controllers
         // GET: api/Employee/5
         public Employee Get(int id)
         {
-            return new Employee();
+            return empDAL.GetEmployeeByID(id);
         }
 
         // POST: api/Employee

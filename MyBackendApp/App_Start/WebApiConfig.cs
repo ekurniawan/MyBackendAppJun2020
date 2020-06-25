@@ -20,6 +20,7 @@ namespace MyBackendApp
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            //menghilangkan format xml
             config.Formatters.Remove(config.Formatters.XmlFormatter);
         }
     }

@@ -106,5 +106,39 @@ namespace MyBackendApp.DAL
                 }
             }
         }
+
+        public void EditEmployee(Employee emp)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConnStr()))
+            {
+                string strSql = @"update Employees set EmpName=@EmpName,
+                Designation=@Designation,Department=@Department,
+                Qualification=@Qualification,Birthdate=@Birthdate 
+                where EmpId=@EmpId";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                cmd.Parameters.AddWithValue("@EmpName", emp.EmpName);
+                cmd.Parameters.AddWithValue("@Designation", emp.Designation);
+                cmd.Parameters.AddWithValue("@Department", emp.Department);
+                cmd.Parameters.AddWithValue("@Qualification", emp.Qualification);
+                cmd.Parameters.AddWithValue("@Birthdate", emp.BirthDate);
+                cmd.Parameters.AddWithValue("@EmpId", emp.EmpId);
+                try
+                {
+                    conn.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    if (result !=1)
+                        throw new Exception("Gagal update data");
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);
+                }
+                finally
+                {
+                    cmd.Dispose();
+                    conn.Close();
+                }
+            }
+        }
     }
 }

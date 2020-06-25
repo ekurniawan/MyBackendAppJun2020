@@ -44,8 +44,17 @@ namespace MyBackendApp.Controllers
         }
 
         // PUT: api/Employee/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(Employee emp)
         {
+            try
+            {
+                empDAL.EditEmployee(emp);
+                return Ok("Data berhasil diedit");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE: api/Employee/5

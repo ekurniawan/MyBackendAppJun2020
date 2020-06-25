@@ -1,4 +1,5 @@
-﻿using MyBackendApp.Models;
+﻿using MyBackendApp.DAL;
+using MyBackendApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +11,22 @@ namespace MyBackendApp.Controllers
 {
     public class EmployeeController : ApiController
     {
-        private List<Employee> lstEmployee = new List<Employee>
+        private EmployeeDAL empDAL;
+        public EmployeeController()
         {
-            new Employee{EmpId=1,EmpName="Budi",Designation="Mobile Dev",
-                Department="IT",Qualification="Android",BirthDate=new DateTime(1990,12,12)},
-            new Employee{EmpId=2,EmpName="Bambang",Designation="Mobile Dev",
-                Department="IT",Qualification="IOS",BirthDate=new DateTime(1990,11,30)},
-            new Employee{EmpId=3,EmpName="Roger",Designation="Web Dev",
-                Department="IT",Qualification="Tizen",BirthDate=new DateTime(1990,5,12)}
-        };
+            empDAL = new EmployeeDAL();
+        }
 
         // GET: api/Employee
         public IEnumerable<Employee> Get()
         {
-            return lstEmployee;
+            return empDAL.GetAllEmployee();
         }
 
         // GET: api/Employee/5
         public Employee Get(int id)
         {
-            var result = lstEmployee.Where(e => e.EmpId == id).SingleOrDefault();
-            return result;
+            return new Employee();
         }
 
         // POST: api/Employee

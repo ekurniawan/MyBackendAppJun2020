@@ -140,5 +140,27 @@ namespace MyBackendApp.DAL
                 }
             }
         }
+
+        public void DeleteEmployee(int empId)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConnStr()))
+            {
+                string strSql = @"delete from Employees where EmpId=@EmpId";
+                SqlCommand cmd = new SqlCommand(strSql, conn);
+                cmd.Parameters.AddWithValue("@EmpId", empId);
+                try
+                {
+                    conn.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    if (result != 1)
+                        throw new Exception("Data gagal di delete !");
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);
+                }
+            }
+        }
+
     }
 }
